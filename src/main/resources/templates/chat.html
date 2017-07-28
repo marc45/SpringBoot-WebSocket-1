@@ -39,6 +39,7 @@
     function sendSpittle(text) {
         stomp.send("/chat", {}, text);
     }
+    
     $('#stop').click(function() {sock.close()});
 </script>
 
