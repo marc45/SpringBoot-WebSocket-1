@@ -1,4 +1,4 @@
-package com.wisely;
+package com.lzxz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

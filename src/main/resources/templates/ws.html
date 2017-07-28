@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Spring Boot+WebSocket+广播式</title>
+    <title>SpringBoot—WebSocket(广播式)</title>
 
 </head>
 <body onload="disconnect()">
@@ -32,12 +32,13 @@
     }
 	
     function connect() {
-        var socket = new SockJS('/endpointWisely'); //1
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function(frame) {
+        var socket = new SockJS('/endpointWisely'); //链接SockJS的endpoint:endpointWisely
+        stompClient = Stomp.over(socket);//使用STOMP子协议的WebSocket客户端
+        stompClient.connect({}, function(frame) {//连接WebSocket客户端
             setConnected(true);
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/getResponse', function(respnose){ //2
+            //通过stompClient.subscribe订阅/topic/getResponse目标destination(@SendToz中定义)发送的消息
+            stompClient.subscribe('/topic/getResponse', function(respnose){
                 showResponse(JSON.parse(respnose.body).responseMessage);
             });
         });
@@ -54,7 +55,7 @@
 
     function sendName() {
         var name = $('#name').val();
-   		//3
+   		//通过stompClient.send向/welcome目标destination(@MessageMapping中定义)发送消息
         stompClient.send("/welcome", {}, JSON.stringify({ 'name': name }));
     }
 
